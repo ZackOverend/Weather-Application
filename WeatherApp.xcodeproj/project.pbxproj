@@ -6,6 +6,14 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		4502E9502CF811A500F06123 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 4502E94F2CF811A500F06123 /* FirebaseAnalytics */; };
+		4502E9522CF811A500F06123 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 4502E9512CF811A500F06123 /* FirebaseAuth */; };
+		4502E9542CF811A500F06123 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 4502E9532CF811A500F06123 /* FirebaseCore */; };
+		4502E9562CF811A500F06123 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 4502E9552CF811A500F06123 /* FirebaseDatabase */; };
+		4502E9582CF811A500F06123 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 4502E9572CF811A500F06123 /* FirebaseFirestore */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		454E4C9B2CE2D93900374075 /* WeatherApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +31,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4502E9502CF811A500F06123 /* FirebaseAnalytics in Frameworks */,
+				4502E9542CF811A500F06123 /* FirebaseCore in Frameworks */,
+				4502E9562CF811A500F06123 /* FirebaseDatabase in Frameworks */,
+				4502E9582CF811A500F06123 /* FirebaseFirestore in Frameworks */,
+				4502E9522CF811A500F06123 /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +78,11 @@
 			);
 			name = WeatherApp;
 			packageProductDependencies = (
+				4502E94F2CF811A500F06123 /* FirebaseAnalytics */,
+				4502E9512CF811A500F06123 /* FirebaseAuth */,
+				4502E9532CF811A500F06123 /* FirebaseCore */,
+				4502E9552CF811A500F06123 /* FirebaseDatabase */,
+				4502E9572CF811A500F06123 /* FirebaseFirestore */,
 			);
 			productName = WeatherApp;
 			productReference = 454E4C9B2CE2D93900374075 /* WeatherApp.app */;
@@ -94,6 +112,9 @@
 			);
 			mainGroup = 454E4C922CE2D93800374075;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				4502E94E2CF811A500F06123 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 454E4C9C2CE2D93900374075 /* Products */;
 			projectDirPath = "";
@@ -326,6 +347,45 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		4502E94E2CF811A500F06123 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.5.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		4502E94F2CF811A500F06123 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4502E94E2CF811A500F06123 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		4502E9512CF811A500F06123 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4502E94E2CF811A500F06123 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		4502E9532CF811A500F06123 /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4502E94E2CF811A500F06123 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+		4502E9552CF811A500F06123 /* FirebaseDatabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4502E94E2CF811A500F06123 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDatabase;
+		};
+		4502E9572CF811A500F06123 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4502E94E2CF811A500F06123 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 454E4C932CE2D93900374075 /* Project object */;
 }

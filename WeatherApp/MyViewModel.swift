@@ -9,6 +9,8 @@
 //CODE FROM ASSIGNMENT 3
 
 import Foundation
+import FirebaseDatabase
+
 
 //RESPONSE CONTENT STRUCT
 struct ResponseContent : Codable {
@@ -53,8 +55,11 @@ struct Condition : Codable {
 //CREATING THE VIEWMODEL CLASS
 class MyViewModel : ObservableObject {
     
+    @Published var userList: [User] = []
     @Published var response : ResponseContent?
     
+    var ref : DatabaseReference = Database.database().reference()
+
     
     var locationManager = LocationManager()
 
@@ -118,4 +123,44 @@ class MyViewModel : ObservableObject {
         
     }
     
+    
+    func getUsers(){
+        userList.removeAll()
+        ref.child("userList").observe(DataEventType.value, with: { (snapshot) in
+         let postDict = snapshot.value as? [AnyObject] ?? []
+             for data in snapshot.value as! [ String : Any] {
+                 var obj : [String : Any] = data.value as! [String : Any]
+                 let id = obj["id"]!
+                 let n = obj["name"]!
+                 let e = obj["email"]!
+                 let p = obj["password"]!
+
+                 print("-------------")
+                 print("id = \(id)")
+                 print("name = \(n)")
+                 print("email = \(e)")
+                 print("password = \(p)")
+                 let user = User(id : id as! Int, name: n as! String, email: e as! String, password: p as! String)
+                 self.userList.append(user)
+             }
+         })
+     }
+
+    // TODO: Create a post when user signs up. Check to make sure the email doesn't already exist in database!
+    func addUser(userObj: User) {
+            
+        // Validation
+        var id = Int(userObj.id) ?? 100
+        var name = userObj.name
+        // TODO: if emailExists == false create error. do not post
+        var email = userObj.email
+        var password = userObj.password
+        
+        let user = User(id: id, name: name, email: email, password: password)
+        
+        self.ref.child("userList")
+            .child("\(user.id)").setValue(user.convertToDict(u: userObj)) {
+                error ,_  in print("done")
+            }
+        }
 }
