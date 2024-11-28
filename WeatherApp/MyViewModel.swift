@@ -55,8 +55,9 @@ struct Condition : Codable {
 //CREATING THE VIEWMODEL CLASS
 class MyViewModel : ObservableObject {
     
-    @Published var userList: [User] = []
+//    @Published var userList: [User]?
     @Published var response : ResponseContent?
+    @Published var userList: [User]?
     
     var ref : DatabaseReference = Database.database().reference()
 
@@ -124,39 +125,37 @@ class MyViewModel : ObservableObject {
     }
     
     
-    func getUsers() async {
-        
-        var tempUsers: [User] = []
-        
-        ref.child("userList").observe(DataEventType.value, with: { (snapshot) in
-         let postDict = snapshot.value as? [AnyObject] ?? []
-             for data in snapshot.value as! [ String : Any] {
-                 var obj : [String : Any] = data.value as! [String : Any]
-                 let id = obj["id"]!
-                 let n = obj["name"]!
-                 let e = obj["email"]!
-                 let p = obj["password"]!
+    func getUsers(){
 
-                 //print("-------------")
-                 //print("id = \(id)")
-                 //print("name = \(n)")
-                 //print("email = \(e)")
-                 //print("password = \(p)")
-                 let user = User(id: id as! String, name: n as! String, email: e as! String, password: p as! String)
-                 tempUsers.append(user)
-                 
-             }
-         })
-        
-        DispatchQueue.main.async {
-            print("USERLIST HERE \(self.userList)")
-            self.userList.removeAll()
-            print("USERLIST NOW \(self.userList)")
-            self.userList = tempUsers
+        self.ref.child("userList").observe(DataEventType.value, with: { (snapshot) in
+            var tempList: [User] = []
+
             
-        }
-     }
-
+            let postDict = snapshot.value as? [AnyObject] ?? []
+            
+            for data in snapshot.value as! [ String : Any] {
+                let obj : [String : Any] = data.value as! [String : Any]
+                let id = obj["id"]!
+                let n = obj["name"]!
+                let e = obj["email"]!
+                let p = obj["password"]!
+                
+                //print("-------------")
+                //print("id = \(id)")
+                //print("name = \(n)")
+                //print("email = \(e)")
+                //print("password = \(p)")
+                let user = User(id: id as! String, name: n as! String, email: e as! String, password: p as! String)
+                tempList.append(user)
+                
+            }
+            DispatchQueue.main.async {
+                self.userList = tempList
+            }
+        })
+       
+    }
+    
     // TODO: Create a post when user signs up. Check to make sure the email doesn't already exist in database!
     func addUser(userObj: User) {
             

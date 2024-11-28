@@ -50,25 +50,45 @@ struct LoginView: View {
                 Spacer()
                 
                 HStack {
-                    Button ("Log In") {
+                    
+                    NavigationLink("Test"){
                         
-                        //vm.getUsers()
-                        
-                        
-                        print(vm.userList)
-                        
-                        for user in vm.userList {
-                            if (email == user.email && password == user.password){
-                                print("----------------------------------")
-                                print("success")
-                                print("----------------------------------")
-                            } else {
-                                showAlert = true
-                            }
+                        // must redirect to HomeView() only if the email and password is valid
+                        // If the fields are empty, the navigationLink should be unclickable
+            
+                        if(isValid(email: email, password: password)){
+                            
+                            HomeView()
                         }
                         
+                        
+                        
+                        
+//                        for user in vm.userList ?? [] {
+//                            if (user.email == email && user.password == password){
+//                                showAlert = false
+//                                
+//                            }
+//                            else{
+//                                showAlert = true
+//                            }
+//                        }
+                        
+//                        print(vm.userList)
+                        
+
                     }
                     .disabled(!isFormValid)
+                    
+                    
+                    
+//                    ForEach(vm.userList ?? [] , id: \.self){ user in
+//                        if (email == user.email && password == user.password){
+//                            Text("Successfully Logged In!")
+//                        } else {
+//                            showAlert = true
+//                        }
+//                    }
                     
                     //https://developer.apple.com/documentation/swiftui/alert
                     .alert(isPresented: $showAlert) {
@@ -93,10 +113,28 @@ struct LoginView: View {
                         .padding(4)
                 }
                 
+                List(vm.userList ?? []) { user in
+                    VStack(alignment: .leading){
+                        Text("ID: \(user.id)")
+                        Text("Email: \(user.email)")
+                        Text("Password: \(user.password)")
+                    }
+                    
+                    
+                }
             }
             
             
+        }.onAppear(){
+            vm.getUsers()
         }
+    }
+    
+    func isValid(email: String, password: String) -> Bool{
+        
+        showAlert = true
+        return false
+        
     }
 }
 

@@ -17,28 +17,24 @@ struct AdminView: View {
             Text("List of Users")
             
             Button("Get Users"){
-                Task {
-                    
-                    do {
-                        await vm.getUsers()
-                    } catch {
-                        print("Empty DB")
-                    }
-                }
+                vm.getUsers()
             }
+        
+//            if (vm.userList != []){
+//                List {
+//                    ForEach(vm.userList ?? [] , id: \.self){ user in
+//                        
+//                        HStack(spacing:5){
+//                            Text("\(user.id)")
+//                            Text("Name:  \(user.name)")
+//                            Text("Email:  \(user.email)")
+//                            Text("Password:  \(user.password)")
+//                        }
+//                        
+//                    }
+//                }
+//            }
             
-            List {
-                ForEach(vm.userList , id: \.self){ user in
-                    
-                    HStack(spacing:5){
-                        Text("\(user.id)")
-                        Text("Name:  \(user.name)")
-                        Text("Email:  \(user.email)")
-                        Text("Password:  \(user.password)")
-                    }
-                    
-                }
-            }
             
             Button("Post Data"){
                 vm.addUser(userObj: User(id: UUID().uuidString ,name: "Test2", email: "Test@Test1.com", password: "password"))
