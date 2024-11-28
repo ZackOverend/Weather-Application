@@ -124,8 +124,10 @@ class MyViewModel : ObservableObject {
     }
     
     
-    func getUsers(){
-        userList.removeAll()
+    func getUsers() async {
+        
+        var tempUsers: [User] = []
+        
         ref.child("userList").observe(DataEventType.value, with: { (snapshot) in
          let postDict = snapshot.value as? [AnyObject] ?? []
              for data in snapshot.value as! [ String : Any] {
@@ -135,15 +137,24 @@ class MyViewModel : ObservableObject {
                  let e = obj["email"]!
                  let p = obj["password"]!
 
-                 print("-------------")
-                 print("id = \(id)")
-                 print("name = \(n)")
-                 print("email = \(e)")
-                 print("password = \(p)")
-                 let user = User(name: n as! String, email: e as! String, password: p as! String)
-                 self.userList.append(user)
+                 //print("-------------")
+                 //print("id = \(id)")
+                 //print("name = \(n)")
+                 //print("email = \(e)")
+                 //print("password = \(p)")
+                 let user = User(id: id as! String, name: n as! String, email: e as! String, password: p as! String)
+                 tempUsers.append(user)
+                 
              }
          })
+        
+        DispatchQueue.main.async {
+            print("USERLIST HERE \(self.userList)")
+            self.userList.removeAll()
+            print("USERLIST NOW \(self.userList)")
+            self.userList = tempUsers
+            
+        }
      }
 
     // TODO: Create a post when user signs up. Check to make sure the email doesn't already exist in database!

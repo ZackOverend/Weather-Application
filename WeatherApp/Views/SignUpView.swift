@@ -65,7 +65,7 @@ struct SignUpView: View {
                 Button("Sign Up"){
                     
                     if (password == retypePassword){
-                        let user = User(name: userName, email: email, password: password)
+                        //let user = User(name: userName, email: email, password: password)
                         
                         
                     } else {
