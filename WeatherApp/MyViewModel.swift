@@ -140,7 +140,7 @@ class MyViewModel : ObservableObject {
                  print("name = \(n)")
                  print("email = \(e)")
                  print("password = \(p)")
-                 let user = User(id : id as! Int, name: n as! String, email: e as! String, password: p as! String)
+                 let user = User(name: n as! String, email: e as! String, password: p as! String)
                  self.userList.append(user)
              }
          })
@@ -149,17 +149,9 @@ class MyViewModel : ObservableObject {
     // TODO: Create a post when user signs up. Check to make sure the email doesn't already exist in database!
     func addUser(userObj: User) {
             
-        // Validation
-        var id = Int(userObj.id) ?? 100
-        var name = userObj.name
-        // TODO: if emailExists == false create error. do not post
-        var email = userObj.email
-        var password = userObj.password
-        
-        let user = User(id: id, name: name, email: email, password: password)
         
         self.ref.child("userList")
-            .child("\(user.id)").setValue(user.convertToDict(u: userObj)) {
+            .child("\(userObj.id)").setValue(userObj.convertToDict(u: userObj)) {
                 error ,_  in print("done")
             }
         }

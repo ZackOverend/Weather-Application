@@ -8,13 +8,12 @@
 import Foundation
 
 struct User: Identifiable, Hashable{
-    var id = 100
+    var id = UUID().uuidString
     var name = "Frederik"
     var email = "Frederik@aol.com"
     var password = "password"
     
-    init(id: Int = 100, name: String = "Frederik", email: String = "Frederik@aol.com", password: String = "password") {
-        self.id = id
+    init(name: String = "Frederik", email: String = "Frederik@aol.com", password: String = "password") {
         self.name = name
         self.email = email
         self.password = password

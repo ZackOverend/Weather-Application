@@ -25,7 +25,6 @@ struct AdminView: View {
                     
                     HStack(spacing:5){
                         
-                        Text("Id : \(user.id)")
                         Text("Name:  \(user.name)")
                         Text("Email:  \(user.email)")
                         Text("Password:  \(user.password)")
@@ -35,7 +34,7 @@ struct AdminView: View {
             }
             
             Button("Post Data"){
-                vm.addUser(userObj: User(id: 102, name: "Test1", email: "Test@Test1.com", password: "password"))
+                vm.addUser(userObj: User(name: "Test1", email: "Test@Test1.com", password: "password"))
             }
         }
         
