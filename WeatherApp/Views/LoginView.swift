@@ -20,6 +20,13 @@ struct LoginView: View {
                 
                 Spacer()
                 
+                Image("logo")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 200, height: 200)
+                
+                Spacer()
+                
                 
                 //reference: Styling inspiration and help https://stackoverflow.com/questions/67132408/i-have-trouble-using-cornerradius-and-borders-on-a-textfield-in-swiftui/67132493
                 TextField("Please enter username", text: $userName)
