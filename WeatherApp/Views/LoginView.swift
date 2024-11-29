@@ -12,16 +12,17 @@ struct LoginView: View {
     @State private var email = ""
     @State private var password = ""
     @State private var showAlert = false
+    @State private var userFound = false
     
     @StateObject var vm = MyViewModel()
     
-    var isFormValid: Bool {
+    var isFormFilled: Bool {
             !email.isEmpty && !password.isEmpty
     }
     
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack {
                 Text("WELCOME").font(.title)
                 
@@ -50,51 +51,27 @@ struct LoginView: View {
                 Spacer()
                 
                 HStack {
-                    
-                    NavigationLink("Test"){
-                        
+                    Button("Log in"){
                         // must redirect to HomeView() only if the email and password is valid
                         // If the fields are empty, the navigationLink should be unclickable
-            
-                        if(isValid(email: email, password: password)){
-                            
-                            HomeView()
+                        
+                        for user in vm.userList ?? []{
+                            if (user.email == email && user.password == password){
+                                userFound = true
+                                showAlert = false
+                            }
+                            else{
+                                userFound = false
+                                showAlert = true
+                            }
                         }
-                        
-                        
-                        
-                        
-//                        for user in vm.userList ?? [] {
-//                            if (user.email == email && user.password == password){
-//                                showAlert = false
-//                                
-//                            }
-//                            else{
-//                                showAlert = true
-//                            }
-//                        }
-                        
-//                        print(vm.userList)
-                        
-
                     }
-                    .disabled(!isFormValid)
-                    
-                    
-                    
-//                    ForEach(vm.userList ?? [] , id: \.self){ user in
-//                        if (email == user.email && password == user.password){
-//                            Text("Successfully Logged In!")
-//                        } else {
-//                            showAlert = true
-//                        }
-//                    }
-                    
+                    .disabled(!isFormFilled)
                     //https://developer.apple.com/documentation/swiftui/alert
                     .alert(isPresented: $showAlert) {
                         Alert(
                             title: Text("Incorrect Input"),
-                            message: Text("Password inputs must match!")
+                            message: Text("Please enter valid email and password")
                         )
                     }
                     .frame(width:100 , height: 55)
@@ -103,7 +80,13 @@ struct LoginView: View {
                     .cornerRadius(5)
                     .font(.subheadline)
                     .padding(4)
-                    
+                    /*Xcode notified that the NavigationLink method was deprecated using isActive. Instead we must take this approach.
+                    https://developer.apple.com/documentation/swiftui/view/navigationdestination(for:destination:)
+                     */
+                    .navigationDestination(isPresented: $userFound){
+                        HomeView()
+                    }
+   
                     NavigationLink("Sign Up", destination: SignUpView())
                         .frame(width:100 , height: 55)
                         .background(.blue)
@@ -130,12 +113,6 @@ struct LoginView: View {
         }
     }
     
-    func isValid(email: String, password: String) -> Bool{
-        
-        showAlert = true
-        return false
-        
-    }
 }
 
 #Preview {
