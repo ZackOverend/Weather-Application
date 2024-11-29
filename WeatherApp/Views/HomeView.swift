@@ -24,32 +24,38 @@ struct HomeView: View {
         
         NavigationStack{
             
-            Text("Home Page").font(.largeTitle)
+            Text("Home Page").font(.largeTitle).bold()
             
             //FOR TESTING PURPOSES
 //            Text("Location : lat =  \(locationmanager.location.coordinate.latitude)")
 //            Text("Location : long =  \(locationmanager.location.coordinate.longitude)")
             
             
-            Text("Weather in Current Location")
-            
-            if (vm.response?.location) != nil {
+           
                 
-                VStack {
-                    Text("\(currentUser.name)")
-//                    HomeCardView(locationName: vm.response?.location.country ?? "", temperature: vm.response?.current.temp_c ??  0.0)
+            VStack {
+                Text("👤 Current user: \(currentUser.name)")
                 
+                ForEach(currentUser.favourites, id: \.self) {
+                    
+                    favourite in
+                    
+                    HomeCardView(locationName: favourite, currentUser: currentUser)
+                    
                     
                 }
-            } else {
-                Text("Fetching location needed...")
             }
+//                HomeCardView(locationName: currentUser.favourites[0], currentUser: currentUser)
+              
             
             
-            Text("Weather in Other Locations")
+            
+            Text("Weather in Other Locations").bold()
             
             // DISPLAYING WEATHER IN OTHER LOCATIONS
             VStack {
+                
+                HomeCardView(locationName: "Placeholder", currentUser: currentUser)
                 
             }
             
@@ -63,10 +69,6 @@ struct HomeView: View {
 //                vm.getLocation()
 //            }
             
-        }.onAppear() {
-            Task{
-                vm.getLocationByCords()
-            }
         }
     }
     
@@ -76,7 +78,7 @@ struct HomeView: View {
 struct HomeCardView: View {
     
     var locationName : String
-    var temperature : Double
+    //var temperature : Double
     var currentUser: User
     
     var body: some View {
@@ -84,11 +86,10 @@ struct HomeCardView: View {
             
         VStack {
             
-            Text("🌍 \(locationName)")
+            Text("🌍 Weather in Current Location: \(locationName)").font(.headline)
             
-            Text("🌡️ \(temperature, specifier: "%.1f")")
+            //Text("🌡️ \(temperature, specifier: "%.1f")")
             
-            Text("Time: Placeholder")
             
             
         }
