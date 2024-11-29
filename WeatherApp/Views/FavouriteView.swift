@@ -9,10 +9,13 @@ import SwiftUI
 
 struct FavouriteView: View {
     var body: some View {
+        Text("Favourites ❤️").font(.largeTitle)
+        
         ScrollView(.vertical) {
             
-            Text("Favourites ❤️").font(.largeTitle)
             
+            
+            //card vstack
             VStack {
                 
                 CardView(
@@ -37,12 +40,18 @@ struct CardView: View {
             
         VStack {
             
+            Text("Placeholder")
+            
+            Text("100°C")
+            
             
         }
-        .frame(width: 250, height: 400)
+        .padding(20)
+        .frame(width: 350, height: 100, alignment: .topLeading)
         .background(.yellow)
         .clipShape(RoundedRectangle(cornerRadius: 25))
-        //.blur(radius: 200)
+               
+        
     }
 }
 
