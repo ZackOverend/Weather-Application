@@ -21,7 +21,7 @@ struct LocationView: View {
     @State private var isLoaded = false
     
     // TODO: Have favouriteLocation be retrieved from FavouriteView()
-    private var favouriteLocation = "Toronto"
+    var favouriteLocation: String
     
     @StateObject private var vm = MyViewModel()
     
@@ -153,5 +153,5 @@ struct LocationView: View {
 
 
 #Preview {
-    LocationView()
+    LocationView(favouriteLocation: "Toronto")
 }

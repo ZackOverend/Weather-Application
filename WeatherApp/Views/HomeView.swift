@@ -16,6 +16,8 @@ struct HomeView: View {
     @StateObject var vm = MyViewModel()
     @StateObject var locationmanager = LocationManager()
     
+    let currentUser: User
+    
     var body: some View {
         
         //DISPLAYS THE CURRENT LOCATION
@@ -34,7 +36,8 @@ struct HomeView: View {
             if (vm.response?.location) != nil {
                 
                 VStack {
-                    HomeCardView(locationName: vm.response?.location.country ?? "", temperature: vm.response?.current.temp_c ??  0.0 )
+                    Text("\(currentUser.name)")
+//                    HomeCardView(locationName: vm.response?.location.country ?? "", temperature: vm.response?.current.temp_c ??  0.0)
                 
                     
                 }
@@ -74,6 +77,7 @@ struct HomeCardView: View {
     
     var locationName : String
     var temperature : Double
+    var currentUser: User
     
     var body: some View {
         
@@ -101,6 +105,7 @@ struct HomeCardView: View {
                
         
     }
+    
 }
 
 
@@ -111,5 +116,5 @@ struct HomeCardView: View {
 
 
 #Preview {
-    HomeView()
+    HomeView(currentUser: User(id: UUID().uuidString, name: "tempName", email: "tempEmail", password: "tempPassword", favourites: []))
 }

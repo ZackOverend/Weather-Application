@@ -23,7 +23,7 @@ struct WeatherAppApp: App {
 
     var body: some Scene {
         WindowGroup {
-            LoginView()
+            LoginView(currentUser: User(id: UUID().uuidString, name: "tempName", email: "tempEmail", password: "tempPassword", favourites: []))
 //            AdminView()
         }
     }

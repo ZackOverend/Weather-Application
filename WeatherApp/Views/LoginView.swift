@@ -14,6 +14,8 @@ struct LoginView: View {
     @State private var showAlert = false
     @State private var userFound = false
     
+    @State var currentUser: User
+    
     @StateObject var vm = MyViewModel()
     
     
@@ -60,6 +62,7 @@ struct LoginView: View {
                             if (user.email == email && user.password == password){
                                 showAlert = false
                                 userFound = true
+                                currentUser = user
                                 break
                             }
                             else{
@@ -86,7 +89,7 @@ struct LoginView: View {
                     https://developer.apple.com/documentation/swiftui/view/navigationdestination(for:destination:)
                      */
                     .navigationDestination(isPresented: $userFound){
-                        HomeView()
+                        HomeView(currentUser: currentUser)
                     }
    
                     NavigationLink("Sign Up", destination: SignUpView())
@@ -119,5 +122,5 @@ struct LoginView: View {
 }
 
 #Preview {
-    LoginView()
+    LoginView(currentUser: User(id: UUID().uuidString, name: "tempName", email: "tempEmail", password: "tempPassword", favourites: []))
 }
