@@ -19,9 +19,14 @@ struct SignUpView: View {
     var isFormValid: Bool {
             !email.isEmpty && !userName.isEmpty && !password.isEmpty && !retypePassword.isEmpty
     }
-
+    @StateObject var vm = MyViewModel()
+    
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
+        
+        
+        
         NavigationView {
             VStack {
                 Text("SIGN UP").font(.title)
@@ -64,8 +69,12 @@ struct SignUpView: View {
                 
                 Button("Sign Up"){
                     
-                    if (password == retypePassword){
-                        //let user = User(name: userName, email: email, password: password)
+                    if (password == retypePassword && isFormValid){
+                        
+                        vm.addUser(userObj: User(id: UUID().uuidString ,name: userName, email: email, password: password))
+                        
+                        dismiss()
+                        
                         
                         
                     } else {
