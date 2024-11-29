@@ -6,37 +6,22 @@
 //
 
 
-//CODE FROM ASSIGNMENT 3
+//CODE FROM ASSIGNMENT 4 with slight edits
 
 import Foundation
 import FirebaseDatabase
 
 
-//RESPONSE CONTENT STRUCT
-struct ResponseContent : Codable {
-    let location : LocationContent
-    let current : Current
+struct Object: Codable {
+    let location: CityLocation
+    let forecast: Forecast
+    let current: Current
 }
 
-//LOCATION CONTENT STRUCT
-struct LocationContent : Codable {
-    
-    let name : String
-    let region : String
-    let country : String
-    let lat : Double
-    let lon : Double
-    let tz_id : String
-    let localTime_epoch : Int?
-    let localTime : String?
-    
-}
-
-//CURRENT STRUCT
 struct Current : Codable {
     
     let temp_c : Double
-    let condition : Condition
+    let condition : CurrentCondition
     let wind_kph : Double
     let wind_dir : String
     let humidity : Int
@@ -46,17 +31,53 @@ struct Current : Codable {
     
 }
 
-//CONDITION STRUCT
-struct Condition : Codable {
-    let text : String
+struct CurrentCondition: Codable {
+    
+    let text: String
+    let icon: String
+    
 }
+
+struct CityLocation: Codable {
+    let name: String
+    let country: String
+}
+
+struct Forecast: Codable {
+    
+    let forecastday: [ForecastDay]
+    
+}
+
+struct ForecastDay: Codable {
+    
+    let hour: [Hour]
+    
+}
+
+struct Hour: Codable {
+    
+    let time: String
+    let temp_c: Double
+    let condition: HourCondition
+    
+    
+}
+
+struct HourCondition: Codable {
+    
+    let text: String
+    let icon: String
+    
+}
+
 
 
 //CREATING THE VIEWMODEL CLASS
 class MyViewModel : ObservableObject {
     
 //    @Published var userList: [User]?
-    @Published var response : ResponseContent?
+    @Published var response : Object?
     @Published var userList: [User]?
     
     var ref : DatabaseReference = Database.database().reference()
@@ -102,7 +123,7 @@ class MyViewModel : ObservableObject {
             
             do {
                 
-                let items = try JSONDecoder().decode(ResponseContent.self, from: data)
+                let items = try JSONDecoder().decode(Object.self, from: data)
                 
                 
                 DispatchQueue.main.async {
