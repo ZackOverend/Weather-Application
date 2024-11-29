@@ -67,7 +67,7 @@ class MyViewModel : ObservableObject {
     
     private let api_key = "f0080bbc8b5741a9aff03911240711"
     
-    let baseUrl = "https://api.weatherapi.com/v1/current.json"
+    let baseUrl = "https://api.weatherapi.com/v1/forecast.json"
     
     func getLocation() {
         
@@ -124,6 +124,59 @@ class MyViewModel : ObservableObject {
         
     }
     
+    func getLocationByName(locationName: String) {
+        
+        let location = locationName
+
+        
+        let urlStr = "\(baseUrl)?key=\(api_key)&q=\(locationName)"
+        print(urlStr)
+        print("lat: \(locationManager.location.coordinate.latitude) long: \(locationManager.location.coordinate.longitude)")
+        
+        // using the API
+        let url = URL(string: urlStr)
+        
+        let task = URLSession.shared.dataTask(with: url!) {
+            
+            data, response, error in
+            
+            guard error == nil else {
+                
+                print("error \(error)")
+                return
+                
+            }
+            
+            guard let data = data else {
+                
+                print("error data not found")
+                return
+                
+            }
+            
+            do {
+                
+                let items = try JSONDecoder().decode(ResponseContent.self, from: data)
+                
+                
+                DispatchQueue.main.async {
+                    self.response = items
+                    
+                }
+                
+                print(items)
+                
+            }catch {
+                
+                print("error \(error)")
+            }
+            
+            
+        }
+        
+        task.resume()
+        
+    }
     
     func getUsers(){
 
