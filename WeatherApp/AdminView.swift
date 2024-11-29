@@ -37,7 +37,11 @@ struct AdminView: View {
             
             
             Button("Post Data"){
-                vm.addUser(userObj: User(id: UUID().uuidString ,name: "Test2", email: "Test@Test1.com", password: "password"))
+                var tempFavourites: [String] = []
+                
+                tempFavourites.append("Toronto")
+                
+                vm.addUser(userObj: User(id: UUID().uuidString ,name: "Test2", email: "Test@Test1.com", password: "password", favourites: tempFavourites))
             }
         }
         

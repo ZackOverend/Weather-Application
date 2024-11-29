@@ -62,7 +62,7 @@ struct HomeView: View {
             
         }.onAppear() {
             Task{
-                vm.getLocation()
+                vm.getLocationByCords()
             }
         }
     }

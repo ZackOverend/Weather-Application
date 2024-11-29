@@ -71,7 +71,12 @@ struct SignUpView: View {
                     
                     if (password == retypePassword && isFormValid){
                         
-                        vm.addUser(userObj: User(id: UUID().uuidString ,name: userName, email: email, password: password))
+                        
+                        var tempList: [String] = []
+                        tempList.append( vm.response?.location.name ?? "")
+                        
+                        vm.addUser(userObj: User(id: UUID().uuidString ,name: userName, email: email, password: password, favourites: tempList))
+                        
                         
                         dismiss()
                         
@@ -80,7 +85,6 @@ struct SignUpView: View {
                     } else {
                         showAlert = true
                     }
-                    
                 }
                 .disabled(!isFormValid)
                 
@@ -98,6 +102,11 @@ struct SignUpView: View {
                 .cornerRadius(5)
                 .font(.subheadline)
                 .padding(4)
+                .onAppear(){
+                    Task{
+                        vm.getLocationByCords()
+                    }
+                }
             }
         }
     }

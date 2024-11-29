@@ -16,6 +16,7 @@ struct LoginView: View {
     
     @StateObject var vm = MyViewModel()
     
+    
     var isFormFilled: Bool {
             !email.isEmpty && !password.isEmpty
     }
@@ -57,8 +58,9 @@ struct LoginView: View {
                         
                         for user in vm.userList ?? []{
                             if (user.email == email && user.password == password){
-                                userFound = true
                                 showAlert = false
+                                userFound = true
+                                break
                             }
                             else{
                                 userFound = false
@@ -101,15 +103,16 @@ struct LoginView: View {
                         Text("ID: \(user.id)")
                         Text("Email: \(user.email)")
                         Text("Password: \(user.password)")
+                        Text("Favourites: \(user.favourites)")
                     }
-                    
-                    
                 }
             }
             
             
         }.onAppear(){
-            vm.getUsers()
+            
+                vm.getUsers()
+            
         }
     }
     

@@ -88,7 +88,7 @@ class MyViewModel : ObservableObject {
     let baseUrl = "https://api.weatherapi.com/v1/forecast.json"
     let numberOfDays = 2
     
-    func getLocation() {
+    func getLocationByCords() {
         
         let lat = locationManager.location.coordinate.latitude
         let long = locationManager.location.coordinate.longitude
@@ -209,13 +209,14 @@ class MyViewModel : ObservableObject {
                 let n = obj["name"]!
                 let e = obj["email"]!
                 let p = obj["password"]!
+                let f = obj["favourites"]
                 
                 //print("-------------")
                 //print("id = \(id)")
                 //print("name = \(n)")
                 //print("email = \(e)")
                 //print("password = \(p)")
-                let user = User(id: id as! String, name: n as! String, email: e as! String, password: p as! String)
+                let user = User(id: id as! String, name: n as! String, email: e as! String, password: p as! String, favourites: f as! [String])
                 tempList.append(user)
                 
             }
@@ -225,6 +226,7 @@ class MyViewModel : ObservableObject {
         })
        
     }
+    
     
     // TODO: Create a post when user signs up. Check to make sure the email doesn't already exist in database!
     func addUser(userObj: User) {
