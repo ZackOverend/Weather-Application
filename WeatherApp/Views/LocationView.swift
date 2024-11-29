@@ -18,61 +18,88 @@ import SwiftUI
 struct LocationView: View {
     @State private var startColour = Color.blue
     @State private var endColour = Color.white
+    @State private var isLoaded = false
+    
+    // TODO: Have favouriteLocation be retrieved from FavouriteView()
+    @State var favouriteLocation = "Toronto"
+    
+    @State private var vm = MyViewModel()
 
     var body: some View {
-        VStack(alignment: .center, spacing: 10.0){
-            HStack{
-                Text("Toronto")
-                    .font(.largeTitle)
-                    .foregroundColor(.white)
-                Spacer()
-                Text("24°C")
-                    .font(.largeTitle)
-                    .foregroundColor(.white)
-            }
-            .padding(.vertical, 30)
-            .padding(.horizontal, 30.0)
+        if (isLoaded){
+            VStack{
+                VStack(alignment: .center, spacing: 10.0){
+                    HStack{
+                        Text("Toronto")
+                            .font(.largeTitle)
+                            .foregroundColor(.white)
+                        
+                        Spacer()
+                        Text("24°C")
+                            .font(.largeTitle)
+                            .foregroundColor(.white)
+                    }
+                    .padding(.vertical, 30)
+                    .padding(.horizontal, 30.0)
 
-            VStack(spacing: 10){
-                
-                
-                Text("Placeholder").font(.largeTitle)
-                Text("Placeholder").font(.largeTitle)
-                Text("Placeholder").font(.largeTitle)
-                Text("Placeholder").font(.largeTitle)
-                Text("Placeholder").font(.largeTitle)
-                Text("Placeholder").font(.largeTitle)
-                Text("Placeholder").font(.largeTitle)
-                Text("Placeholder").font(.largeTitle)
-                Text("Placeholder").font(.largeTitle)
-                Text("Placeholder").font(.largeTitle)
-                
-                Button("Change Background"){
-                                            
+                    VStack(spacing: 10){
+                        Text("Placeholder").font(.largeTitle)
+                        Text("Placeholder").font(.largeTitle)
+                        Text("Placeholder").font(.largeTitle)
+                        Text("Placeholder").font(.largeTitle)
+                        Text("Placeholder").font(.largeTitle)
+                        Text("Placeholder").font(.largeTitle)
+                        Text("Placeholder").font(.largeTitle)
+                        Text("Placeholder").font(.largeTitle)
+                        Text("Placeholder").font(.largeTitle)
+                        Text("Placeholder").font(.largeTitle)
+                        
+                        Button("Change Background"){
+                            
+                            
+                        }.buttonStyle(.borderedProminent)
+                        
+                    }
+                    .padding(20)
+                    .frame(width: 350, height: 600, alignment: .topLeading)
+                    .background(
+                        Color.black
+                            .blur(radius: 200)
+                            .cornerRadius(15)
+                            .shadow(radius: 10)
+                        )
+                    .foregroundStyle(.white)
                     
-                }.buttonStyle(.borderedProminent)
+                }
+                .padding(10.0)
+                .frame(width: 400, height: 750, alignment: .center)
+                
                 
             }
-            .padding(20)
-            .frame(width: 350, height: 600, alignment: .topLeading)
+            //https://www.hackingwithswift.com/quick-start/swiftui/how-to-place-content-outside-the-safe-area
+            .frame(minWidth: 100, maxWidth: .infinity, minHeight: 100, maxHeight: .infinity)
             .background(
-            Color.black
-                .blur(radius: 200)
-                .cornerRadius(15)
-                .shadow(radius: 10)
+                LinearGradient(colors: [startColour, endColour], startPoint: .topLeading, endPoint: .bottomTrailing)
             )
-            .foregroundStyle(.white)
-            
+            .ignoresSafeArea()
         }
-        .padding(10.0)
-        .frame(width: 400, height: 750, alignment: .center)
-        .background(
-            LinearGradient(colors: [startColour, endColour], startPoint: .topLeading, endPoint: .bottomTrailing)
-        )
-        .edgesIgnoringSafeArea(.all)
-        
-
-    }
+        else{
+            VStack{
+                Text("Loading Weather Data...").font(.title)
+            }.onAppear(){
+                Task{
+                    do{
+                        try await vm.getLocationByName(locationName: "\(favouriteLocation)")
+                        isLoaded = true
+                    }
+                    catch{
+                        print("ERROR, could not retrieve data")
+                    }
+                }
+                
+            }
+        }
+    } // View Body
 }
 
 

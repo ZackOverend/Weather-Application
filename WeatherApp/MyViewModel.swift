@@ -124,7 +124,7 @@ class MyViewModel : ObservableObject {
         
     }
     
-    func getLocationByName(locationName: String) {
+    func getLocationByName(locationName: String) async throws{
         
         let location = locationName
 
