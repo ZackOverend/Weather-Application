@@ -20,21 +20,51 @@ struct HomeView: View {
         
         //DISPLAYS THE CURRENT LOCATION
         
-        Text("Home").font(.largeTitle)
-        
-        //FOR TESTING PURPOSES
-        Text("Location : lat =  \(locationmanager.location.coordinate.latitude)")
-        Text("Location : long =  \(locationmanager.location.coordinate.longitude)")
-        
-        
-        VStack {
-            HomeCardView()
+        NavigationStack{
+            
+            Text("Home Page").font(.largeTitle)
+            
+            //FOR TESTING PURPOSES
+//            Text("Location : lat =  \(locationmanager.location.coordinate.latitude)")
+//            Text("Location : long =  \(locationmanager.location.coordinate.longitude)")
+            
+            
+            Text("Weather in Current Location")
+            
+            if (vm.response?.location) != nil {
+                
+                VStack {
+                    HomeCardView(locationName: vm.response?.location.country ?? "", temperature: vm.response?.current.temp_c ??  0.0 )
+                
+                    
+                }
+            } else {
+                Text("Fetching location needed...")
+            }
+            
+            
+            Text("Weather in Other Locations")
+            
+            // DISPLAYING WEATHER IN OTHER LOCATIONS
+            VStack {
+                
+            }
+            
+            Spacer()
+            
+            
+            Spacer()
+            
+            
+//            Button("Refresh") {
+//                vm.getLocation()
+//            }
+            
+        }.onAppear() {
+            Task{
+                vm.getLocation()
+            }
         }
-        
-        Spacer()
-        
-        Spacer()
-        
     }
     
 }
@@ -42,21 +72,32 @@ struct HomeView: View {
 //testing purposes
 struct HomeCardView: View {
     
+    var locationName : String
+    var temperature : Double
     
     var body: some View {
+        
             
         VStack {
             
-            Text("Placeholder")
+            Text("🌍 \(locationName)")
             
-            Text("100°C")
+            Text("🌡️ \(temperature, specifier: "%.1f")")
+            
+            Text("Time: Placeholder")
             
             
         }
+        
         .padding(20)
         .frame(width: 350, height: 100, alignment: .topLeading)
-        .background(.yellow)
+        .background(
+            Color.blue
+                .blur(radius: 100)
+                .shadow(radius: 5)
+            )
         .clipShape(RoundedRectangle(cornerRadius: 25))
+        
                
         
     }
