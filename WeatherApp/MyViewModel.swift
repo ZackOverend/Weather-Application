@@ -12,63 +12,61 @@ import Foundation
 import FirebaseDatabase
 
 
-struct Object: Codable {
-    let location: CityLocation
-    let forecast: Forecast
+struct Object: Codable{
+    let location: Location
     let current: Current
+    let forecast: Forecast
 }
 
-struct Current : Codable {
+// Nested in Weather
+struct Location: Codable {
+    let name: String
+    let region: String
+    let country: String
+    let localtime: String
+}
+
+// Nested in Weather
+struct Current: Codable{
+    let condition: Condition
     
-    let temp_c : Double
-    let condition : CurrentCondition
-    let wind_kph : Double
-    let wind_dir : String
-    let humidity : Int
-    let feelslike_c : Double
-    let vis_km : Double
-    let uv : Double
+    let temp_c: Double
+    let feelslike_c: Double
+    let wind_kph: Double
+    let wind_dir: String
+    let uv: Double
+    let humidity: Double
+    let vis_km: Double
     
 }
 
-struct CurrentCondition: Codable {
+// Nested in Weather
+struct Forecast: Codable{
+    let forecastday: [ForecastDay]
+    struct ForecastDay: Codable{
+        let hour: [Hour]
+    }
     
+}
+
+// Nested in Weather -> Current | Nested in Weather -> Forecast
+struct Condition: Codable{
     let text: String
     let icon: String
-    
 }
 
-struct CityLocation: Codable {
-    let name: String
-    let country: String
-}
-
-struct Forecast: Codable {
-    
-    let forecastday: [ForecastDay]
-    
-}
-
-struct ForecastDay: Codable {
-    
-    let hour: [Hour]
-    
-}
-
-struct Hour: Codable {
-    
+// Nested in Weather -> Forecast -> ForecastDay
+struct Hour: Codable{
     let time: String
     let temp_c: Double
-    let condition: HourCondition
+    let feelslike_c: Double
+    let wind_kph: Double
+    let wind_dir: String
+    let uv: Double
+    let humidity: Double
+    let vis_km: Double
     
-    
-}
-
-struct HourCondition: Codable {
-    
-    let text: String
-    let icon: String
-    
+    let condition: Condition
 }
 
 
@@ -86,9 +84,9 @@ class MyViewModel : ObservableObject {
     var locationManager = LocationManager()
 
     
-    private let api_key = "f0080bbc8b5741a9aff03911240711"
-    
+    private let api_key = "7c86052efa3246ba93a33436241111"
     let baseUrl = "https://api.weatherapi.com/v1/forecast.json"
+    let numberOfDays = 2
     
     func getLocation() {
         
@@ -149,10 +147,8 @@ class MyViewModel : ObservableObject {
         
         let location = locationName
 
-        
-        let urlStr = "\(baseUrl)?key=\(api_key)&q=\(locationName)"
+        let urlStr = baseUrl + "?key=\(api_key)" + "&q=\(location)" + "&days=\(numberOfDays)"
         print(urlStr)
-        print("lat: \(locationManager.location.coordinate.latitude) long: \(locationManager.location.coordinate.longitude)")
         
         // using the API
         let url = URL(string: urlStr)
