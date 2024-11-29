@@ -158,7 +158,7 @@ class MyViewModel : ObservableObject {
         let url = URL(string: urlStr)
         
         let task = URLSession.shared.dataTask(with: url!) {
-            
+
             data, response, error in
             
             guard error == nil else {
@@ -177,7 +177,7 @@ class MyViewModel : ObservableObject {
             
             do {
                 
-                let items = try JSONDecoder().decode(ResponseContent.self, from: data)
+                let items = try JSONDecoder().decode(Object.self, from: data)
                 
                 
                 DispatchQueue.main.async {

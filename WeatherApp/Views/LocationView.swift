@@ -55,7 +55,8 @@ struct LocationView: View {
                         Text("Placeholder").font(.largeTitle)
                         
                         Button("Change Background"){
-                            
+                            startColour = Color.black
+                            endColour = Color.blue
                             
                         }.buttonStyle(.borderedProminent)
                         
