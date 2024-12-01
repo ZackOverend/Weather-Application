@@ -24,6 +24,7 @@ struct Location: Codable {
     let region: String
     let country: String
     let localtime: String
+    let tz_id: String
 }
 
 // Nested in Weather
@@ -57,7 +58,7 @@ struct Condition: Codable{
 
 // Nested in Weather -> Forecast -> ForecastDay
 struct Hour: Codable{
-    let time: String
+    var time: String
     let temp_c: Double
     let feelslike_c: Double
     let wind_kph: Double
@@ -74,9 +75,14 @@ struct Hour: Codable{
 //CREATING THE VIEWMODEL CLASS
 class MyViewModel : ObservableObject {
     
-//    @Published var userList: [User]?
     @Published var response : Object?
     @Published var userList: [User]?
+    @Published var intervalHours: [Hour] = []
+    
+    @Published var currentHour: Int = 0
+    @Published var locationHour: Int = 0
+//    @Published var intervalHours: [Hour] = []
+
     
     var ref : DatabaseReference = Database.database().reference()
 
@@ -178,7 +184,9 @@ class MyViewModel : ObservableObject {
                 
                 DispatchQueue.main.async {
                     self.response = items
-                    
+                    self.calculateInterval()
+                    self.locationHour = self.getLocationHour()
+                    self.currentHour = self.getCurrentHour()
                 }
                 
                 print(items)
@@ -230,11 +238,69 @@ class MyViewModel : ObservableObject {
     
     // TODO: Create a post when user signs up. Check to make sure the email doesn't already exist in database!
     func addUser(userObj: User) {
-            
         
         self.ref.child("userList")
             .child("\(userObj.id)").setValue(userObj.convertToDict(u: userObj)) {
                 error ,_  in print("done")
             }
         }
+    
+    // Helper function for calculateInterval
+    func getLocationHour() -> Int{
+        let responseLocalTime = response?.location.localtime ?? ""
+
+        let dateFormatter = DateFormatter()
+        
+        // dateFormatter.date information from here
+        //https://www.swiftyplace.com/blog/swift-date-formatting-10-steps-guide
+        let date = dateFormatter.date(from: responseLocalTime)
+        let responseTimeZone = TimeZone(identifier: response?.location.tz_id ?? "America/New_York")
+        
+        // Calendar information from here
+        //https://developer.apple.com/documentation/foundation/calendar/component
+        var calendar = Calendar.current
+        calendar.timeZone = responseTimeZone!
+        
+        // The integer representation of the current hour
+        // Defaults to local device hour we can't find the timezone
+        return Int(calendar.component(.hour, from: date ?? Date()))
+    }
+    
+    // Helper function for calculateInterval
+    func getCurrentHour() -> Int{
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH"
+        
+        return Int(dateFormatter.string(from: Date())) ?? 0
+    }
+    
+    // Calculates the 24 hour time interval relative to the provided by the viewmodel
+    func calculateInterval(){
+        intervalHours = []
+        // Gets an integer representation of the current time hour in the viewmodels location
+        let locationHour: Int = getLocationHour()
+        
+        // Gets an integer representation of the current time hour in the devices location
+        let currentHour: Int = getCurrentHour()
+        
+        // Retrieves the combined 48 hours of the day today and tomorrow
+        let forecast48Hours: [Hour] = (response?.forecast.forecastday[0].hour ?? []) + (response?.forecast.forecastday[1].hour ?? [])
+        
+        for i in 1...24 {
+            // Since we want the 24 hour interval to display the next forecasted 24 hours, add i
+            var iterationHour: Hour = forecast48Hours[locationHour+i]
+
+            // Take the current hour of the users timezone, adds the iteration then
+            // takes the remainder, since we can't have it display the hour as "30:00" for example instead we want "6:00"
+            let relativeTime: String = "\((currentHour + i) % 24)"
+            
+            // offset the current hours time to that of the correct timezone
+            iterationHour.time = "\(relativeTime):00"
+            
+            // Append to published variable
+            intervalHours.append(iterationHour)
+        }
+
+        
+    }
 }
