@@ -30,21 +30,28 @@ struct HomeView: View {
 //            Text("Location : lat =  \(locationmanager.location.coordinate.latitude)")
 //            Text("Location : long =  \(locationmanager.location.coordinate.longitude)")
             
+            Text("👤 Current user: \(currentUser.name)")
             
-           
+            
                 
-            VStack {
-                Text("👤 Current user: \(currentUser.name)")
-                
-                ForEach(currentUser.favourites, id: \.self) {
+                VStack {
                     
-                    favourite in
-                    
-                    HomeCardView(locationName: favourite, currentUser: currentUser)
-                    
-                    
+                    ForEach(currentUser.favourites, id: \.self) {
+                        
+                        favourite in
+                        
+                        NavigationLink(destination: LocationView(favouriteLocation: favourite)) {
+                            
+                            HomeCardView(locationName: favourite, currentUser: currentUser)
+                            
+                        }
+                        
+                       
+                        
+                        
+                    }
                 }
-            }
+            
 //                HomeCardView(locationName: currentUser.favourites[0], currentUser: currentUser)
               
             
