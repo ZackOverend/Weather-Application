@@ -27,30 +27,33 @@ struct HomeView: View {
             Text("Home Page").font(.largeTitle).bold()
             
             //FOR TESTING PURPOSES
-//            Text("Location : lat =  \(locationmanager.location.coordinate.latitude)")
-//            Text("Location : long =  \(locationmanager.location.coordinate.longitude)")
+            //            Text("Location : lat =  \(locationmanager.location.coordinate.latitude)")
+            //            Text("Location : long =  \(locationmanager.location.coordinate.longitude)")
             
             Text("👤 Current user: \(currentUser.name)")
             
             
+            
+            VStack {
                 
-                VStack {
+                ForEach(currentUser.favourites, id: \.self) {
                     
-                    ForEach(currentUser.favourites, id: \.self) {
+                    favourite in
+                    
+                    NavigationLink(destination: LocationView(favouriteLocation: favourite)) {
                         
-                        favourite in
+                        HomeCardView(locationName: favourite, currentUser: currentUser)
                         
-                        NavigationLink(destination: LocationView(favouriteLocation: favourite)) {
                             
-                            HomeCardView(locationName: favourite, currentUser: currentUser)
-                            
-                        }
                         
-                       
-                        
-                        
-                    }
+                    }.tint(.black)
+                    
+                    
+                    
+                    
                 }
+            }
+        
             
 //                HomeCardView(locationName: currentUser.favourites[0], currentUser: currentUser)
               
