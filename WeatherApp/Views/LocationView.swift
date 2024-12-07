@@ -6,6 +6,8 @@
 //  991717328
 
 import SwiftUI
+import GoogleGenerativeAI
+
 
 // Code for adjusting background colour dynamically
 //https://oguzhanaslann.medium.com/implementing-dynamic-background-color-from-images-in-swift-96e71dd73599
@@ -13,6 +15,8 @@ import SwiftUI
 // Code for linear gradient background
 //https://www.hackingwithswift.com/quick-start/swiftui/how-to-render-a-gradient
 
+// https://stackoverflow.com/questions/57727107/how-to-get-the-iphones-screen-width-in-swiftui
+// Allows card to dynamically adjust based on width of phone
 let screenWidth = UIScreen.main.bounds.width
 
 struct LocationView: View {
@@ -42,6 +46,7 @@ struct LocationView: View {
                         
                         CardDetailData(response: responseData)
                         
+                        CardAiGendescription(location: favouriteLocation)
                         Spacer()
 
                         CardHorizontalScroll(intervalHours: vm.intervalHours)
@@ -76,6 +81,9 @@ struct LocationView: View {
                 Task{
                     do{
                         try await vm.getLocationByName(locationName: "\(favouriteLocation)")
+                        
+                        
+                        
                         isLoaded = true
                     }
                     catch{
@@ -212,7 +220,69 @@ struct CardHorizontalScroll: View {
     }
 }
 
+struct CardAiGendescription: View {
+    let location: String
+    
+    struct MyKey {
+        static let API_KEY = "AIzaSyB79dWDOjQr3KMTz2F2yFmsh6Y5v79KJu8"
+        static let textRequest = "Create a description with exactly 20-30 words (try to not use the word 'vibrant' so much) and be sure to include the name of the location (but not the region or country and use ',' instead of ':') for:"
+    }
+    
+    @State var response = "Loading Location Description..."
+
+    
+    var body: some View {
+        
+        VStack{
+
+            Text(response)
+                .multilineTextAlignment(.center)
+                .padding(10)
+            
+                
+        }
+        .frame(width: screenWidth * 0.75, height: 150, alignment: .center)
+        .background(
+            Color.white
+            .blur(radius: 200)
+            .cornerRadius(15)
+            .shadow(radius: 10)
+            .opacity(20)
+        )
+        .onAppear(){
+            Task{
+                do{
+                    let model = GenerativeModel(name: "gemini-1.5-flash" , apiKey: MyKey.API_KEY)
+                    let output  = try await model.generateContent("\(MyKey.textRequest)\(location)")
+                    
+                    guard let text = output.text else {
+                        
+                        print("error ")
+                        return
+                    }
+                    
+                    DispatchQueue.main.async {
+                    
+                        self.response = text
+                    }
+                    
+                  }catch{
+                    
+                    print("error \(error)")
+                }
+                
+            }
+        }
+        
+    }
+    
+}
+    
+    
+
+
+
 
 #Preview {
-    LocationView(favouriteLocation: "Vancouver")
+    LocationView(favouriteLocation: "Banff")
 }

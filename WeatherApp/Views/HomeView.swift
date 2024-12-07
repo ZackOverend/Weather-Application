@@ -59,20 +59,36 @@ struct HomeView: View {
               
             
             
-            
-            Text("Weather in Other Locations").bold()
-            
-            // DISPLAYING WEATHER IN OTHER LOCATIONS
-            VStack {
+            if(currentUser.favourites.count > 1)
+            {
+                Text("Weather in Other Locations").bold()
                 
-                HomeCardView(locationName: "Placeholder", currentUser: currentUser)
+                ForEach(currentUser.favourites, id: \.self) {
+                    
+                    favourite in
+                    
+                    // Makes sure we don't display the first element of favourites list again
+                    if(favourite != currentUser.favourites[0]){
+                        HomeCardView(locationName: favourite, currentUser: currentUser)
+                    }
+                }
+
+                
+                // DISPLAYING WEATHER IN OTHER LOCATIONS
+                VStack {
+                    
+                    HomeCardView(locationName: "Placeholder", currentUser: currentUser)
+                    
+                }
+                
+                
                 
             }
-            
             Spacer()
             
             
             Spacer()
+            
             
             
 //            Button("Refresh") {

@@ -12,6 +12,7 @@
 		4502E9542CF811A500F06123 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 4502E9532CF811A500F06123 /* FirebaseCore */; };
 		4502E9562CF811A500F06123 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 4502E9552CF811A500F06123 /* FirebaseDatabase */; };
 		4502E9582CF811A500F06123 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 4502E9572CF811A500F06123 /* FirebaseFirestore */; };
+		4502E9D92D041CC300295F4D /* GoogleGenerativeAI in Frameworks */ = {isa = PBXBuildFile; productRef = 4502E9D82D041CC300295F4D /* GoogleGenerativeAI */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 				4502E9502CF811A500F06123 /* FirebaseAnalytics in Frameworks */,
 				4502E9542CF811A500F06123 /* FirebaseCore in Frameworks */,
 				4502E9562CF811A500F06123 /* FirebaseDatabase in Frameworks */,
+				4502E9D92D041CC300295F4D /* GoogleGenerativeAI in Frameworks */,
 				4502E9582CF811A500F06123 /* FirebaseFirestore in Frameworks */,
 				4502E9522CF811A500F06123 /* FirebaseAuth in Frameworks */,
 			);
@@ -83,6 +85,7 @@
 				4502E9532CF811A500F06123 /* FirebaseCore */,
 				4502E9552CF811A500F06123 /* FirebaseDatabase */,
 				4502E9572CF811A500F06123 /* FirebaseFirestore */,
+				4502E9D82D041CC300295F4D /* GoogleGenerativeAI */,
 			);
 			productName = WeatherApp;
 			productReference = 454E4C9B2CE2D93900374075 /* WeatherApp.app */;
@@ -114,6 +117,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				4502E94E2CF811A500F06123 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				4502E9D72D041CC300295F4D /* XCRemoteSwiftPackageReference "generative-ai-swift" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 454E4C9C2CE2D93900374075 /* Products */;
@@ -357,6 +361,14 @@
 				minimumVersion = 11.5.0;
 			};
 		};
+		4502E9D72D041CC300295F4D /* XCRemoteSwiftPackageReference "generative-ai-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google-gemini/generative-ai-swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.5.6;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -384,6 +396,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 4502E94E2CF811A500F06123 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseFirestore;
+		};
+		4502E9D82D041CC300295F4D /* GoogleGenerativeAI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4502E9D72D041CC300295F4D /* XCRemoteSwiftPackageReference "generative-ai-swift" */;
+			productName = GoogleGenerativeAI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
