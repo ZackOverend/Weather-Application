@@ -116,6 +116,8 @@ struct LoginView: View {
             
                 vm.getUsers()
             
+                vm.getLocationByCords()
+            
         }
     }
     
