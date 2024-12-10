@@ -8,49 +8,105 @@
 import WidgetKit
 import SwiftUI
 
+
 struct Provider: AppIntentTimelineProvider {
+    
+    
+    
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), configuration: ConfigurationAppIntent())
+        SimpleEntry(date: Date(), configuration: ConfigurationAppIntent(), city: "Placeholder City", temp_c: 2, condition: "Placeholder Condition", time: "Placeholder Time")
     }
 
     func snapshot(for configuration: ConfigurationAppIntent, in context: Context) async -> SimpleEntry {
-        SimpleEntry(date: Date(), configuration: configuration)
+        SimpleEntry(date: Date(), configuration: ConfigurationAppIntent(), city: "Placeholder City", temp_c: 2, condition: "Placeholder Condition", time: "Placeholder Time")
     }
     
     func timeline(for configuration: ConfigurationAppIntent, in context: Context) async -> Timeline<SimpleEntry> {
         var entries: [SimpleEntry] = []
+        
+        let vm = WidgetViewModel()
+        
+        let hour = Calendar.current.component(.hour, from: Date())
+        
+        let dayHours = 24
+        
+        
+        
+        
+        
+            do{
+                try await vm.getObject(city: configuration.favoriteCity)
+                
+                
+                let currentDate = Date()
+                
+                for hourOffset in hour ..< dayHours {
+                    
+                    let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
+                    let entry = SimpleEntry(date: entryDate, configuration: configuration, city: configuration.favoriteCity, temp_c: Int(vm.object!.forecast.forecastday[0].hour[hourOffset].temp_c), condition: vm.object!.forecast.forecastday[0].hour[hourOffset].condition.text, time:  vm.changeFormat(str: vm.object!.forecast.forecastday[0].hour[hourOffset].time))
+                    entries.append(entry)
+                }
 
-        // Generate a timeline consisting of five entries an hour apart, starting from the current date.
-        let currentDate = Date()
-        for hourOffset in 0 ..< 5 {
-            let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = SimpleEntry(date: entryDate, configuration: configuration)
-            entries.append(entry)
-        }
-
+                
+                
+            }catch {
+                print("error \(error)")
+            }
+        
         return Timeline(entries: entries, policy: .atEnd)
+
+        
     }
 
-//    func relevances() async -> WidgetRelevances<ConfigurationAppIntent> {
-//        // Generate a list containing the contexts this widget is relevant in.
-//    }
 }
 
 struct SimpleEntry: TimelineEntry {
     let date: Date
     let configuration: ConfigurationAppIntent
+    let city: String
+    let temp_c: Int
+    let condition: String
+    let time: String
 }
 
 struct WeatherWidgetEntryView : View {
+    
+    
+    
+    
+    
     var entry: Provider.Entry
 
     var body: some View {
         VStack {
-            Text("Time:")
-            Text(entry.date, style: .time)
-
-            Text("Favorite Emoji:")
-            Text(entry.configuration.favoriteEmoji)
+            
+            HStack {
+                
+                Text("Current Forecast Time:")
+                Text(entry.time)
+                
+            }
+            
+            Spacer()
+            
+            HStack {
+                Text("City:")
+                Text(entry.configuration.favoriteCity)
+            }
+            
+            Spacer()
+            
+            HStack {
+                Text("Current Temp: ")
+                Text("\(entry.temp_c)°")
+            }
+            
+            Spacer()
+            
+            HStack {
+                Text("Condition: ")
+                Text(entry.condition)
+            }
         }
     }
 }
@@ -64,25 +120,4 @@ struct WeatherWidget: Widget {
                 .containerBackground(.fill.tertiary, for: .widget)
         }
     }
-}
-
-extension ConfigurationAppIntent {
-    fileprivate static var smiley: ConfigurationAppIntent {
-        let intent = ConfigurationAppIntent()
-        intent.favoriteEmoji = "😀"
-        return intent
-    }
-    
-    fileprivate static var starEyes: ConfigurationAppIntent {
-        let intent = ConfigurationAppIntent()
-        intent.favoriteEmoji = "🤩"
-        return intent
-    }
-}
-
-#Preview(as: .systemSmall) {
-    WeatherWidget()
-} timeline: {
-    SimpleEntry(date: .now, configuration: .smiley)
-    SimpleEntry(date: .now, configuration: .starEyes)
 }
