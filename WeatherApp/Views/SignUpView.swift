@@ -30,6 +30,7 @@ struct SignUpView: View {
         NavigationView {
             VStack {
                 Text("SIGN UP").font(.title)
+                    .foregroundStyle(Color.white)
                 
                 Spacer()
                 
@@ -109,6 +110,9 @@ struct SignUpView: View {
                     }
                 }
             }
+            .background(
+                LinearGradient(colors: [Color.orange, Color.white], startPoint: .topLeading, endPoint: .bottomTrailing)
+            )
         }
     }
 }

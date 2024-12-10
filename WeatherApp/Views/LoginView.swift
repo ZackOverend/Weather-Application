@@ -27,7 +27,11 @@ struct LoginView: View {
     var body: some View {
         NavigationStack {
             VStack {
+                
+                Spacer()
+                
                 Text("WELCOME").font(.title)
+                    .foregroundStyle(Color.white)
                 
                 Spacer()
                 
@@ -101,15 +105,12 @@ struct LoginView: View {
                         .padding(4)
                 }
                 
-                List(vm.userList ?? []) { user in
-                    VStack(alignment: .leading){
-                        Text("ID: \(user.id)")
-                        Text("Email: \(user.email)")
-                        Text("Password: \(user.password)")
-                        Text("Favourites: \(user.favourites)")
-                    }
-                }
+                
+                
             }
+            .background(
+                LinearGradient(colors: [Color.blue, Color.white], startPoint: .topLeading, endPoint: .bottomTrailing)
+            )
             
             
         }.onAppear(){
