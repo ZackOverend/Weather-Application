@@ -35,6 +35,8 @@ struct FavouritesView: View {
                 TextField(text: $locationName, label: {
                     Text("Enter Location Name")
                 })
+                .overlay(RoundedRectangle(cornerRadius: 10.0).strokeBorder(Color.black, style: StrokeStyle(lineWidth: 1.0)))
+                .padding()
                 
                 Button("Add to Favourites"){
                     
@@ -58,6 +60,12 @@ struct FavouritesView: View {
                     
                     vm.getUsers()
                 }
+                .frame(width:100 , height: 55)
+                .background(.blue)
+                .foregroundColor(.white)
+                .cornerRadius(5)
+                .font(.subheadline)
+                .padding(4)
             }
             
         }

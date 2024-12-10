@@ -107,13 +107,28 @@ struct HomeView: View {
             Spacer()
             
             
-            NavigationLink(destination:
-                            FavouritesView(currentUserId: currentUserId).environmentObject(vm)){
-                Text("Edit Locations")
-            }
-            
-            Button("Refresh Current Location") {
-                vm.getLocationByCords()
+            HStack {
+                
+                NavigationLink(destination:
+                                FavouritesView(currentUserId: currentUserId).environmentObject(vm)){
+                    Text("Edit Locations")
+                }
+                                .frame(width:130 , height: 55)
+                                .background(.blue)
+                                .foregroundColor(.white)
+                                .cornerRadius(5)
+                                .font(.subheadline)
+                                .padding(4)
+                
+                Button("Refresh Current Location") {
+                    vm.getLocationByCords()
+                }
+                .frame(width:130 , height: 55)
+                .background(.blue)
+                .foregroundColor(.white)
+                .cornerRadius(5)
+                .font(.subheadline)
+                .padding(4)
             }
             
         }
