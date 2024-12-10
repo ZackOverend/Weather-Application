@@ -93,7 +93,7 @@ struct LoginView: View {
                     https://developer.apple.com/documentation/swiftui/view/navigationdestination(for:destination:)
                      */
                     .navigationDestination(isPresented: $userFound){
-                        HomeView(currentUser: currentUser)
+                        HomeView(currentUser: currentUser, currentUserId: currentUser.id).environmentObject(vm)
                     }
    
                     NavigationLink("Sign Up", destination: SignUpView())
@@ -116,7 +116,6 @@ struct LoginView: View {
         }.onAppear(){
             
                 vm.getUsers()
-            
                 vm.getLocationByCords()
             
         }

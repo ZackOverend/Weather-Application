@@ -13,13 +13,14 @@ import SwiftUI
 
 struct HomeView: View {
     
-    @StateObject var vm = MyViewModel()
+    @EnvironmentObject var vm: MyViewModel
     @StateObject var locationmanager = LocationManager()
     
     
     //@State var currentLocationName : String = ""
     
-    var currentUser: User
+    @State var currentUser: User
+    @State var currentUserId: String
     
     var body: some View {
         
@@ -45,22 +46,32 @@ struct HomeView: View {
                 
                 NavigationLink(destination: LocationView(favouriteLocation: currentLocationName)) {
                     
-                    HomeCardView(locationName: currentLocationName, currentUser: currentUser)
+                    HomeCardView(locationName: vm.response?.location.name ?? "Oakville", currentUser: currentUser)
                 }.tint(.black)
                 
                 
             }.onAppear() {
                 
+                vm.getUsers()
+
                 Task {
                     do {
-                        
+                        vm.getUsers()
                         vm.getLocationByCords()
-                        
                         
                     } catch {
                         print("")
                     }
                 }
+                
+//                for user in vm.userList!{
+//                    if(user.id == currentUserId)
+//                    {
+//                        currentUser = user
+//                        break
+//                    }
+//                        
+//                }
             }
                 
             
@@ -68,43 +79,42 @@ struct HomeView: View {
               
             
             
+            
             if(currentUser.favourites.count > 1)
             {
                 Text("Weather in Other Locations").bold()
-                
-                ForEach(currentUser.favourites, id: \.self) {
-                    
-                    favourite in
-                    
-                    // Makes sure we don't display the first element of favourites list again
-                    if(favourite != currentUser.favourites[0]){
+                ScrollView{
+                    ForEach(vm.getUserById(id: currentUserId).favourites, id: \.self) {
                         
+                        favourite in
                         
-                        NavigationLink(destination: LocationView(favouriteLocation: favourite)) {
+                        // Makes sure we don't display the first element of favourites list again
+                            
+                        NavigationLink(destination: LocationView( favouriteLocation: favourite)) {
                             
                             HomeCardView(locationName: favourite, currentUser: currentUser)
                             
                         }.tint(.black)
-                  
+                        
+                            
+                        
                         
                     }
-                    
-                }
 
-                
-                
-                
+                }
             }
-            Spacer()
-            
             
             Spacer()
             
             
+            NavigationLink(destination:
+                            FavouritesView(currentUserId: currentUserId).environmentObject(vm)){
+                Text("Edit Locations")
+            }
             
-//            Button("Refresh") {
-//                vm.getLocation()
-//            }
+            Button("Refresh Current Location") {
+                vm.getLocationByCords()
+            }
             
         }
     }
@@ -150,5 +160,5 @@ struct HomeCardView: View {
 
 
 #Preview {
-    HomeView(currentUser: User(id: UUID().uuidString, name: "tempName", email: "tempEmail", password: "tempPassword", favourites: []))
+    HomeView(currentUser: User(id: UUID().uuidString, name: "tempName", email: "tempEmail", password: "tempPassword", favourites: []), currentUserId: "")
 }

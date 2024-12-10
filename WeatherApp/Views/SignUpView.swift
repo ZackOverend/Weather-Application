@@ -25,8 +25,6 @@ struct SignUpView: View {
     
     var body: some View {
         
-        
-        
         NavigationView {
             VStack {
                 Text("SIGN UP").font(.title)
@@ -74,7 +72,7 @@ struct SignUpView: View {
                         
                         
                         var tempList: [String] = []
-                        tempList.append( vm.response?.location.name ?? "")
+                        tempList.append("")
                         
                         vm.addUser(userObj: User(id: UUID().uuidString ,name: userName, email: email, password: password, favourites: tempList))
                         

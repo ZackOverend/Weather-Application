@@ -245,6 +245,23 @@ class MyViewModel : ObservableObject {
             }
         }
     
+    func removeUser(userObj: User){
+        self.ref.child("userList")
+            .child("\(userObj.id)").removeValue()
+    }
+    
+    func getUserById(id: String) -> User{
+
+            for user in userList!{
+                if(user.id == id){
+                    return user
+                }
+            }
+        
+        return User(id: "", name: "", email: "", password: "", favourites: [])
+        
+    }
+    
     // Helper function for calculateInterval
     func getLocationHour() -> Int{
         let responseLocalTime = response?.location.localtime ?? ""
