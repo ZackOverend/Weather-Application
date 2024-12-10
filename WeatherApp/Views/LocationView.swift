@@ -216,7 +216,6 @@ struct CardHorizontalScroll: View {
                 }
             }
         }
-
     }
 }
 
