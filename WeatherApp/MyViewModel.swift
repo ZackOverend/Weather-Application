@@ -94,7 +94,7 @@ class MyViewModel : ObservableObject {
     let baseUrl = "https://api.weatherapi.com/v1/forecast.json"
     let numberOfDays = 2
     
-    func getLocationByCords() {
+    func getLocationByCords(){
         
         let lat = locationManager.location.coordinate.latitude
         let long = locationManager.location.coordinate.longitude

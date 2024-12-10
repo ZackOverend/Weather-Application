@@ -104,6 +104,7 @@ struct SignUpView: View {
                 .padding(4)
                 .onAppear(){
                     Task{
+                        
                         vm.getLocationByCords()
                     }
                 }
