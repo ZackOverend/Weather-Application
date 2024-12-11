@@ -44,7 +44,7 @@ struct LoginView: View {
                 
                 
                 //reference: Styling inspiration and help https://stackoverflow.com/questions/67132408/i-have-trouble-using-cornerradius-and-borders-on-a-textfield-in-swiftui/67132493
-                TextField("Please enter username", text: $email)
+                TextField("Please enter email", text: $email)
                     .padding()
                     .overlay(RoundedRectangle(cornerRadius: 10.0).strokeBorder(Color.black, style: StrokeStyle(lineWidth: 1.0)))
                     .padding()
