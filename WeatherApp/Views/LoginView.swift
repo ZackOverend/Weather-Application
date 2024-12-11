@@ -96,7 +96,7 @@ struct LoginView: View {
                         HomeView(currentUser: currentUser, currentUserId: currentUser.id).environmentObject(vm)
                     }
    
-                    NavigationLink("Sign Up", destination: SignUpView())
+                    NavigationLink("Sign Up", destination: SignUpView().environmentObject(vm))
                         .frame(width:100 , height: 55)
                         .background(.blue)
                         .foregroundColor(.white)

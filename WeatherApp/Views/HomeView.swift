@@ -27,7 +27,7 @@ struct HomeView: View {
         
         //DISPLAYS THE CURRENT LOCATION
         
-        var currentLocationName : String = vm.response?.location.name ?? ""
+        let currentLocationName : String = vm.response?.location.name ?? ""
         
         NavigationStack{
             
@@ -39,7 +39,7 @@ struct HomeView: View {
             //            Text("Location : long =  \(locationmanager.location.coordinate.longitude)")
             
             Text("👤 Current user: \(currentUser.name)")
-            Text("Weather in Current Location:").bold()
+            Text("Current Location:").bold()
             
             
             VStack {
@@ -53,16 +53,8 @@ struct HomeView: View {
             }.onAppear() {
                 
                 vm.getUsers()
-
-                Task {
-                    do {
-                        vm.getUsers()
-                        vm.getLocationByCords()
-                        
-                    } catch {
-                        print("")
-                    }
-                }
+                vm.getLocationByCords()
+            }
                 
 //                for user in vm.userList!{
 //                    if(user.id == currentUserId)
@@ -72,7 +64,7 @@ struct HomeView: View {
 //                    }
 //                        
 //                }
-            }
+//            }
                 
             
 //          HomeCardView(locationName: currentUser.favourites[0], currentUser: currentUser)
@@ -80,9 +72,9 @@ struct HomeView: View {
             
             
             
-            if(currentUser.favourites.count > 1)
+            if(currentUser.favourites.count > 0)
             {
-                Text("Weather in Other Locations").bold()
+                Text("Favourites List").bold()
                 ScrollView{
                     ForEach(vm.getUserById(id: currentUserId).favourites, id: \.self) {
                         
@@ -120,6 +112,7 @@ struct HomeView: View {
     }
     
 }
+
 
 //testing purposes
 struct HomeCardView: View {

@@ -19,8 +19,8 @@ struct SignUpView: View {
     var isFormValid: Bool {
             !email.isEmpty && !userName.isEmpty && !password.isEmpty && !retypePassword.isEmpty
     }
-    @StateObject var vm = MyViewModel()
     
+    @EnvironmentObject var vm: MyViewModel
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
@@ -70,9 +70,10 @@ struct SignUpView: View {
                     
                     if (password == retypePassword && isFormValid){
                         
+                        // Get the user current location
                         
                         var tempList: [String] = []
-                        tempList.append("")
+                        tempList.append("\(vm.response?.location.name ?? "")")
                         
                         vm.addUser(userObj: User(id: UUID().uuidString ,name: userName, email: email, password: password, favourites: tempList))
                         
@@ -94,19 +95,20 @@ struct SignUpView: View {
                         message: Text("Password inputs must match!")
                     )
                 }
-                
+                .onAppear(){
+                    Task{
+                        do{
+                            vm.getLocationByCords()
+                        }
+                    }
+                }
                 .frame(width:100 , height: 55)
                 .background(.blue)
                 .foregroundColor(.white)
                 .cornerRadius(5)
                 .font(.subheadline)
                 .padding(4)
-                .onAppear(){
-                    Task{
-                        
-                        vm.getLocationByCords()
-                    }
-                }
+    
             }
             .background(
                 LinearGradient(colors: [Color.orange, Color.white], startPoint: .topLeading, endPoint: .bottomTrailing)
