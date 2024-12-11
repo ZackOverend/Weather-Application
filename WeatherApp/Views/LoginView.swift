@@ -2,8 +2,8 @@
 //  LoginView.swift
 //  WeatherApp
 //
-//  Created by Julius Nillo on 2024-11-11.
-//
+//  Created by Julius Nillo & Frederik on 2024-11-11.
+//  991721936
 
 import SwiftUI
 

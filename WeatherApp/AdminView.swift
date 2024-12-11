@@ -3,7 +3,7 @@
 //  WeatherApp
 //
 //  Created by Zackary Overend on 27/11/24.
-//
+//  991717328
 
 import SwiftUI
 
@@ -20,22 +20,6 @@ struct AdminView: View {
                 vm.getUsers()
             }
         
-//            if (vm.userList != []){
-//                List {
-//                    ForEach(vm.userList ?? [] , id: \.self){ user in
-//                        
-//                        HStack(spacing:5){
-//                            Text("\(user.id)")
-//                            Text("Name:  \(user.name)")
-//                            Text("Email:  \(user.email)")
-//                            Text("Password:  \(user.password)")
-//                        }
-//                        
-//                    }
-//                }
-//            }
-            
-            
             Button("Post Data"){
                 var tempFavourites: [String] = []
                 

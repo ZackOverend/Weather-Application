@@ -2,8 +2,8 @@
 //  SignUpView.swift
 //  WeatherApp
 //
-//  Created by Julius Nillo on 2024-11-11.
-//
+//  Created by Frederik Dahl Hansen on 2024-11-11.
+//  991695115
 
 import SwiftUI
 
