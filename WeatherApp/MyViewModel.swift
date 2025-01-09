@@ -81,8 +81,6 @@ class MyViewModel : ObservableObject {
     
     @Published var currentHour: Int = 0
     @Published var locationHour: Int = 0
-//    @Published var intervalHours: [Hour] = []
-
     
     var ref : DatabaseReference = Database.database().reference()
 
@@ -90,6 +88,7 @@ class MyViewModel : ObservableObject {
     var locationManager = LocationManager()
 
     
+    // Key has been depracated, change this to a valid api key to fix app
     private let api_key = "7c86052efa3246ba93a33436241111"
     let baseUrl = "https://api.weatherapi.com/v1/forecast.json"
     let numberOfDays = 2
